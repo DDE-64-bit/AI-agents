@@ -4,31 +4,36 @@ from agent.Config import ModelConfig
 
 ModelConfig.setDefaultModel("gpt-4o", True)
 
-reelConceptAgent = Agent(
-    name="reelConceptAgent",
-    instruction="You generate 3 creative reel ideas for the city. Focus on visual punch and vibe. Keep it under 10 words per idea."
+marketAnalysisAgent = Agent(
+    name="marketAnalysisAgent",
+    instruction="Voer een eenvoudige marktanalyse uit voor het ingevoerde product of dienst. Focus op doelgroep, trends en concurrentie."
 )
 
-captionAgent = Agent(
-    name="captionAgent",
-    instruction="You write 3 short, catchy captions that match each reel idea. Keep each under 10 words."
+strategyAgent = Agent(
+    name="strategyAgent",
+    instruction="Bedenk een marketingstrategie gebaseerd op de marktanalyse. Denk aan positionering, boodschap en marketingkanalen."
 )
 
-shotListAgent = Agent(
-    name="shotListAgent",
-    instruction="You give 3 quick bullet points per reel idea with shots to film. Be concise and specific (e.g. skyline, coffee shop, street artist)."
+campaignIdeaAgent = Agent(
+    name="campaignIdeaAgent",
+    instruction="Stel drie creatieve campagne-ideeën voor gebaseerd op de strategie. Wees kort, pakkend en visueel aantrekkelijk."
 )
 
-travelReelChain = Chain([
-    reelConceptAgent,
-    captionAgent,
-    shotListAgent
+kpiAgent = Agent(
+    name="kpiAgent",
+    instruction="Bepaal 3 concrete KPI's en hoe succes gemeten wordt. Denk aan bereik, conversie, engagement."
+)
+
+marketingChain = Chain([
+    marketAnalysisAgent,
+    strategyAgent,
+    campaignIdeaAgent,
+    kpiAgent
 ])
 
 if __name__ == "__main__":
-    #city = "Lisbon"
-    city = input("City: ")
-    results = travelReelChain.execute(prompt=city, debug=False)
+    product = input("Welk product of dienst wil je in de markt zetten? ")
+    results = marketingChain.execute(prompt=product, debug=False)
 
     for name, output in results.items():
         print(f"\n=== {name} ===\n{output.strip()}")
